@@ -17,6 +17,8 @@ from composer.callbacks.memory_monitor import MemoryMonitor
 from composer.callbacks.mlperf import MLPerfCallback
 from composer.callbacks.speed_monitor import SpeedMonitor
 from composer.callbacks.threshold_stopper import ThresholdStopper
+from composer.callbacks.sam_callback import SamCallback
+
 from composer.core import Callback
 
 callback_registry: Dict[str, Union[Type[Callback], Type[hp.Hparams]]] = {
@@ -30,4 +32,5 @@ callback_registry: Dict[str, Union[Type[Callback], Type[hp.Hparams]]] = {
     'export_for_inference': ExportForInferenceCallback,
     'threshold_stopper': ThresholdStopper,
     'image_visualizer': ImageVisualizer,
+    'sam_callback': SamCallback,
 }

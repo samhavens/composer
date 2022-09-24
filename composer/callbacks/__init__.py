@@ -16,6 +16,7 @@ from composer.callbacks.memory_monitor import MemoryMonitor
 from composer.callbacks.mlperf import MLPerfCallback
 from composer.callbacks.speed_monitor import SpeedMonitor
 from composer.callbacks.threshold_stopper import ThresholdStopper
+from composer.callbacks.sam_callback import SamCallback
 
 __all__ = [
     'GradMonitor',
@@ -28,4 +29,5 @@ __all__ = [
     'ExportForInferenceCallback',
     'ThresholdStopper',
     'ImageVisualizer',
+    'SamCallback',
 ]
