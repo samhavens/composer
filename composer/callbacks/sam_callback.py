@@ -3,19 +3,21 @@
 
 """Monitor stuff rate during training."""
 
-from composer import Callback, Event, Logger, State
-
+import torch
 from transformers import AutoTokenizer
 
-import numpy as np
-import torch
+from composer import Callback, Event, Logger, State
+
 
 __all__ = ['SamCallback']
 
-tok_name = "bert-base-uncased" # is there a WAY TO GET THIS FROM STATE OR SOMETHING?
 
+# is there a way to get this from state instead of hardcoding?
+tok_name = "bert-base-uncased"
 tokenizer = AutoTokenizer.from_pretrained(tok_name)
 
+
+# this has a weird docstring because I wasn't able to get composer to accept it otherwise
 class SamCallback(Callback):
     """Logs stuff
 
@@ -44,7 +46,7 @@ class SamCallback(Callback):
         self.count = 0
         self.every = 100  # should be 100
 
-    def run_event(self, event: Event, state: State, logger: Logger):
+    def run_event(self, event: Event, state: State, _: Logger):
         if event == Event.BATCH_END:
             self.count += 1
             if self.count % self.every == 0:
