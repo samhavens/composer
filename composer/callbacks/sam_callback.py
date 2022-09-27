@@ -1,7 +1,7 @@
 # Copyright 2022 MosaicML Composer authors
 # SPDX-License-Identifier: Apache-2.0
 
-"""Monitor stuff rate during training."""
+"""print MLM predictions during training."""
 
 import torch
 from transformers import AutoTokenizer
