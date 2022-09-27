@@ -51,6 +51,7 @@ class SamCallback(Callback):
                 print(f'Number of batches: {self.count}')
                 iids = state.batch['input_ids'][0]
                 print(f"INPUT: {tokenizer.decode(iids)}")
+                print()
                 # Find the location of [MASK] and extract its logits
                 mask_token_index = torch.argwhere(iids == tokenizer.mask_token_id)
                 # print(mask_token_index.shape)
@@ -59,6 +60,7 @@ class SamCallback(Callback):
                 top_ids = torch.argmax(mask_token_logits, dim=2)
                 top_tokens = tokenizer.batch_decode(top_ids)
                 print(f"top guesses for each [MASK]: {top_tokens}")
+                print()
                 out = ""
                 for s, guess in zip(tokenizer.decode(iids).split(tokenizer.mask_token), top_tokens):
                     # tokenizer.decode does smart token-joining stuff, so I don't want to rewrite that, hence this split/zip thing
