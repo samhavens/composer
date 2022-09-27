@@ -63,4 +63,4 @@ class SamCallback(Callback):
                 for s, guess in zip(tokenizer.decode(iids).split(tokenizer.mask_token), top_tokens):
                     # tokenizer.decode does smart token-joining stuff, so I don't want to rewrite that, hence this split/zip thing
                     out += s + guess
-                print("OUTPUT: {out}")
+                print(f"OUTPUT: {out}")
