@@ -19,9 +19,7 @@ tokenizer = AutoTokenizer.from_pretrained(tok_name)
 
 # this has a weird docstring because I wasn't able to get composer to accept it otherwise
 class SamCallback(Callback):
-    """Logs stuff
-
-    This callback does stuff
+    """Logs MLM predictions each 100 batches
 
 
     Example:
@@ -39,12 +37,12 @@ class SamCallback(Callback):
             ...     callbacks=[SamCallback()],
             ... )
 
-    The stuff is stuffy
+    Leaving this line just in case it is semantic
     """
 
     def __init__(self) -> None:
         self.count = 0
-        self.every = 100  # should be 100
+        self.every = 100
 
     def run_event(self, event: Event, state: State, _: Logger):
         if event == Event.BATCH_END:
@@ -56,7 +54,6 @@ class SamCallback(Callback):
                 print()
                 # Find the location of [MASK] and extract its logits
                 mask_token_index = torch.argwhere(iids == tokenizer.mask_token_id)
-                # print(mask_token_index.shape)
                 mask_token_logits = state.outputs.logits[0, mask_token_index, :]
                 # Pick the [MASK] candidates with the highest logits
                 top_ids = torch.argmax(mask_token_logits, dim=2)
