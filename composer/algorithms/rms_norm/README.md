@@ -12,7 +12,7 @@ Root Mean Square Layer Norm, or RMSNorm, regularizes the summed inputs to a neur
 ### Functional Interface
 
 ```python
-# Run the Ghost BatchNorm algorithm directly on the model using the Composer functional API
+# Run the RMSNorm algorithm directly on the model using the Composer functional API
 
 import torch
 import torch.nn.functional as F
