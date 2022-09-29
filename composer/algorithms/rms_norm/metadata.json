@@ -1,0 +1,15 @@
+{
+    "rms_norm": {
+        "name": "Root Mean Square Layer Normalization",
+        "class_name": "RMSNorm",
+        "functional": "apply_rms_norm",
+        "tldr": "layer norm without mean centering and learned bias",
+        "attribution": "(Zhang and Sennrich, 2019)",
+        "link": "https://arxiv.org/abs/1910.07467",
+        "domains": [
+            "nlp"
+        ],
+        "summary": "A simpler, and hence faster, Layer Normalization — without mean centering and learned bias.",
+        "use": "Networks using LayerNorm, especially decoder-only LLMs"
+    }
+}
