@@ -33,6 +33,7 @@ from composer.algorithms.layer_freezing import freeze_layers
 from composer.algorithms.mixup import mixup_batch
 from composer.algorithms.progressive_resizing import resize_batch
 from composer.algorithms.randaugment import randaugment_image
+from composer.algorithms.rms_norm import apply_rms_norm
 from composer.algorithms.selective_backprop import select_using_loss, should_selective_backprop
 from composer.algorithms.seq_length_warmup import set_batch_sequence_length
 from composer.algorithms.squeeze_excite import apply_squeeze_excite
@@ -65,4 +66,5 @@ __all__ = [
     'apply_squeeze_excite',
     'apply_stochastic_depth',
     'apply_weight_standardization',
+    'apply_rms_norm',
 ]

@@ -3,10 +3,12 @@
 
 import logging
 from typing import Dict, Optional, Sequence, Type, Union
+import warnings
 
 import torch
 from torch.nn.modules import LayerNorm
 from torch.optim import Optimizer
+from composer.algorithms.warnings import NoEffectWarning
 
 from composer.core import Algorithm, Event, State
 from composer.loggers import Logger
@@ -87,6 +89,7 @@ def apply_rms_norm(
     # now checks if `module.__class__ == cls`, rather than `isinstance(module, cls)`
     policy: Dict[Type[torch.nn.Module], module_surgery.ReplacementFunction] = {LayerNorm: maybe_replace}
     module_surgery.replace_module_classes(model, optimizers=optimizers, policies=policy)
+    _log_surgery_result(model, eps)
     return model
 
 
@@ -137,3 +140,15 @@ class RMSNorm(Algorithm):
             logger.log_hyperparameters({
                 f'{classname}/num_new_modules': num_new_modules,
             })
+
+
+def _log_surgery_result(model: torch.nn.Module, eps: float):
+    num_new_modules = module_surgery.count_module_instances(model, _RMSNorm)
+    if num_new_modules == 0:
+         warnings.warn(
+            NoEffectWarning('Applying RMSNorm did not change any layers. '
+                            'No LayerNorm layers were found.'))
+
+    log.info(f'Applied RMSNorm to model {model.__class__.__name__} '
+                 f'with eps={eps}, '
+                 f'Model now has {num_new_modules} RMSNorm modules')
