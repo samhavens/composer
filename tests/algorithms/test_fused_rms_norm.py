@@ -26,7 +26,7 @@ def assert_is_frn_instance(model):
     from transformers import BertForMaskedLM, BertForSequenceClassification
 
     assert isinstance(model, BertForMaskedLM) or isinstance(model, BertForSequenceClassification)
-    # ensure that within the entire model, no PyTorch LayerNorm exists, and at least one APEX FLN does.
+    # ensure that within the entire model, no PyTorch LayerNorm exists, and at least one APEX FRN does.
     assert model.modules is not None, 'model has .modules method'
     for module_class in model.modules():
         assert not isinstance(
