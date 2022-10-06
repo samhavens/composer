@@ -17,6 +17,10 @@ from composer.utils import module_surgery
 log = logging.getLogger(__name__)
 
 
+# reference implementations
+# https://github.com/bzhangGo/rmsnorm/blob/64971395c5bd90f3d888991c4ca6a3625e04809b/rmsnorm_torch.py#L12
+# https://github.com/lucidrains/x-transformers/blob/fb1671342d3b27a748336873c225fbd4dd66b7a1/x_transformers/x_transformers.py#L381
+# our implementation mostly mirrors that of x-transformers, though uses variable names based on the original paper
 class _RMSNorm(torch.nn.Module):
     """`Root Mean Square LayerNorm <https://arxiv.org/abs/1910.07467>`_ layer.
 
@@ -25,24 +29,26 @@ class _RMSNorm(torch.nn.Module):
     Identical to LayerNorm when mean is 0
 
     Args:
+        dim (int): model size
         eps (float, optional): numerical stability constant. Default: ``1e-8``.
 
     Raises:
-        Probably
+        ValueError if calling _RMSNorm.from_layer_norm() on a non-LayerNorm layer
     """
     def __init__(self, dim: int, eps: float = 1e-8):
         super().__init__()
         self.scale = dim ** -0.5
         self.eps = eps
-        self.g = torch.nn.Parameter(torch.ones(dim))
+        self.gain = torch.nn.Parameter(torch.ones(dim))
 
     def forward(self, x: torch.Tensor):
-        norm = torch.norm(x, dim = -1, keepdim = True) * self.scale
-        return x / norm.clamp(min = self.eps) * self.g
+        rms_x = torch.linalg.norm(x, dim = -1, keepdim = True) * self.scale
+        return x / rms_x.clamp(min = self.eps) * self.gain
 
     @classmethod
     def from_layer_norm(cls, module: torch.nn.Module, eps: float = 1e-8) -> "_RMSNorm":
-        assert isinstance(module, LayerNorm), 'Module is not LayerNorm!'
+        if not isinstance(module, LayerNorm):
+            raise ValueError('Must call _RMSNorm.from_layer_norm() on a LayerNorm layer')
         dim = len(module.normalized_shape)
         return cls(dim, eps)
 
