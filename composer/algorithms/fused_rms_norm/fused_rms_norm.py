@@ -41,7 +41,7 @@ def _from_layer_norm(layer: torch.nn.Module, module_index: int) -> APEXFusedRMSN
 
 
 def apply_fused_rms_norm(model: torch.nn.Module, optimizers: Union[torch.optim.Optimizer,
-                                                                    Sequence[torch.optim.Optimizer]]) -> None:
+                                                                   Sequence[torch.optim.Optimizer]]) -> None:
     """Replaces all instances of `torch.nn.LayerNorm` with a `apex.normalization.fused_layer_norm.FusedRMSNorm
     <https://nvidia.github.io/apex/layernorm.html>`_.
 
