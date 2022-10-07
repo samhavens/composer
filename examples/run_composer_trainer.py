@@ -17,6 +17,9 @@ import sys
 import tempfile
 import warnings
 
+#!! REMOVE THE FOLLOWING LINE BEFORE MERGING; JUST FOR MLPERF
+import performance
+
 from composer.loggers import LogLevel
 from composer.trainer.trainer_hparams import TrainerHparams
 from composer.utils import dist, warn_yahp_deprecation
@@ -39,6 +42,9 @@ def _main():
 
     if len(sys.argv) == 1:
         sys.argv.append('--help')
+
+    #!! REMOVE THE FOLLOWING LINE BEFORE MERGING; JUST FOR MLPERF
+    performance.register_all_algorithms()
 
     hparams = TrainerHparams.create(cli_args=True)  # reads cli args from sys.argv
 
