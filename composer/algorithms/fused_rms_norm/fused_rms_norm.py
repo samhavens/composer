@@ -109,8 +109,8 @@ class FusedRMSNorm(Algorithm):
         return event == Event.INIT
 
     def apply(self, _: Event, state: State, logger: Logger) -> Optional[int]:
-        num_new_modules = module_surgery.count_module_instances(state.model, APEXFusedRMSNorm)
         apply_fused_rms_norm(model=state.model, optimizers=state.optimizers)
+        num_new_modules = module_surgery.count_module_instances(state.model, APEXFusedRMSNorm)
         if logger is not None:
             logger.log_hyperparameters({
                 f'{self.__class__.__name__}/num_new_modules': num_new_modules,
