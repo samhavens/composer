@@ -63,15 +63,15 @@ Fused RMSNorm is implemented by performing model surgery, which looks for instan
 
 ## Suggested Hyperparameters
 
-Fused RMSNorm does not have any hyperparameters. It utilizes the existing `normalized_shape` and `d_eps` from the original model.
+Fused RMSNorm does not have any hyperparameters. It utilizes the existing `normalized_shape` and `d_eps` from the original model's `LayerNorm` layers.
 
 ## Technical Details
 
-APEX's FusedRMSNorm achieves a substantial speedup over PyTorch LayerNorm by doing a few things:
+APEX's FusedRMSNorm achieves a speedup over PyTorch LayerNorm by doing a few things:
 1. Instead of computing and rescaling to fix the mean and variance (as in LayerNorm), RMSNorm only calculates and rescales the variance.
-1. Instead of a naive implementation, which requires two passes over the input in order to estimate variances, it uses [Welford's Online Algorithm](https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Welford's_online_algorithm) to estimate the variances in a single step, creating a substantive wall-clock speedup.
+1. Instead of a naive implementation, which requires two passes over the input in order to estimate variances, it uses [Welford's Online Algorithm](https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Welford's_online_algorithm) to estimate the variances in a single step, creating a wall-clock speedup.
 1. Instead of requiring multiple CUDA kernel launches, it computes everything in a single kernel launch, therefore improving GPU utilization.
 
 ## Attribution
 
-*The Composer implementation of this method and the accompanying documentation were produced by Sam Havens at MosaicML.*
+*The Composer implementation of this method and the accompanying documentation were produced by MosaicML.*
