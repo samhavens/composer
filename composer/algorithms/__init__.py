@@ -47,6 +47,7 @@ from composer.algorithms.cutout import CutOut
 from composer.algorithms.ema import EMA
 from composer.algorithms.factorize import Factorize
 from composer.algorithms.fused_layernorm import FusedLayerNorm
+from composer.algorithms.fused_rms_norm import FusedRMSNorm
 from composer.algorithms.gated_linear_units import GatedLinearUnits
 from composer.algorithms.ghost_batchnorm import GhostBatchNorm
 from composer.algorithms.gradient_clipping import GradientClipping
@@ -77,6 +78,7 @@ __all__ = [
     'EMA',
     'Factorize',
     'FusedLayerNorm',
+    'FusedRMSNorm',
     'GatedLinearUnits',
     'GhostBatchNorm',
     'GradientClipping',

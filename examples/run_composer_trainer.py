@@ -17,6 +17,9 @@ import sys
 import tempfile
 import warnings
 
+#!! REMOVE THE FOLLOWING LINE BEFORE MERGING; JUST FOR MLPERF
+import performance
+
 from composer.trainer.trainer_hparams import TrainerHparams
 from composer.utils import dist, warn_yahp_deprecation
 from composer.utils.misc import warning_on_one_line
@@ -39,6 +42,9 @@ def _main():
     if len(sys.argv) == 1:
         sys.argv.append('--help')
 
+    #!! REMOVE THE FOLLOWING LINE BEFORE MERGING; JUST FOR MLPERF
+    performance.register_all_algorithms()
+
     hparams = TrainerHparams.create(cli_args=True)  # reads cli args from sys.argv
 
     trainer = hparams.initialize_object()
@@ -57,13 +63,6 @@ def _main():
                 file_path=f.name,
                 overwrite=True,
             )
-
-    # Print the config to the terminal and log to remote file system if on each local rank 0
-    if dist.get_local_rank() == 0:
-        print('*' * 30)
-        print('Config:')
-        print(hparams.to_yaml())
-        print('*' * 30)
 
     trainer.fit()
 

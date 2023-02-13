@@ -1,0 +1,15 @@
+{
+    "fused_layernorm": {
+        "name": "Fused RMSNorm",
+        "class_name": "FusedRMSNorm",
+        "functional": "apply_fused_rms_norm",
+        "tldr": "Replaces LayerNorm kernels with a single fused RMSNorm kernel",
+        "attribution": "NVIDIA",
+        "link": "https://nvidia.github.io/apex/layernorm.html",
+        "domains": [
+            "nlp"
+        ],
+        "summary": "Replaces LayerNorm kernels with a single fused RMSNorm kernel, leading to increased GPU utilization.",
+        "use": "RMSNorm normalization operations."
+    }
+}
